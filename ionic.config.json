@@ -1,0 +1,7 @@
+{
+  "name": "lg-ionic-ex",
+  "integrations": {
+    "capacitor": {}
+  },
+  "type": "angular"
+}
