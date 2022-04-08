@@ -1,0 +1,41 @@
+<ion-header [translucent]="true">
+  <ion-toolbar>
+    <ion-title slot="start"> Tab 1 </ion-title>
+
+    <ion-item slot="end">
+      <ion-label>Theme :</ion-label>
+      <ion-select class="selectTheme" interface="popover" [(ngModel)]="selectTheme" (ionChange)="dynamicTheme()">
+        <ion-select-option color="light" [value]="theme.class" *ngFor="let theme of themeColor"> {{theme.name}} </ion-select-option>
+      </ion-select>
+    </ion-item>
+  </ion-toolbar>
+</ion-header>
+
+<ion-content [fullscreen]="true">
+  <ion-header collapse="condense">
+    <ion-toolbar>
+      <ion-title size="large">Tab 1</ion-title>
+    </ion-toolbar>
+  </ion-header>
+
+  <ion-card *ngIf="lgCardDatas[0]">
+    <ion-card-header>
+      <ion-card-subtitle>{{lgCardDatas[0].subtitle}}</ion-card-subtitle>
+      <ion-card-title>{{lgCardDatas[0].title}}</ion-card-title>
+    </ion-card-header>
+
+    <ion-card-content> {{lgCardDatas[0].content}} </ion-card-content>
+  </ion-card>
+
+  <app-tab1-card *ngIf="lgCardDatas[2]" [title]="lgCardDatas[2].title" [subtitle]="lgCardDatas[2].subtitle" [content]="lgCardDatas[2].content"></app-tab1-card>
+
+  <app-lg-card
+    *ngIf="lgCardDatas[1]"
+    [title]="lgCardDatas[1].title"
+    [subtitle]="lgCardDatas[1].subtitle"
+    [content]="lgCardDatas[1].content"
+    [selectedTheme]="selectTheme"
+    (greenTheme)="selectGreenTheme()"
+  >
+  </app-lg-card>
+</ion-content>
