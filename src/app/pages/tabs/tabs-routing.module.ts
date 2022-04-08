@@ -1,5 +1,6 @@
 import { NgModule } from '@angular/core';
 import { RouterModule, Routes } from '@angular/router';
+import { AuthGuard } from 'src/app/guards/auth.guard';
 
 import { TabsPage } from './tabs.page';
 
@@ -15,6 +16,7 @@ const routes: Routes = [
       {
         path: 'tab2',
         loadChildren: () => import('./tab2/tab2.module').then(m => m.Tab2PageModule),
+        canLoad: [AuthGuard],
       },
       {
         path: 'tab3',
