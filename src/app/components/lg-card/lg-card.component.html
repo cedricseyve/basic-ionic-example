@@ -1,3 +1,4 @@
+<!-- Card 3 accessible to users with basic permissions -->
 <ion-card *appCheckAccess="permission.View; feature: features.Card3">
   <ion-card-header>
     <ion-card-title>{{ title }}</ion-card-title>
@@ -12,6 +13,7 @@
       Current theme :
       <b> {{ selectedTheme }} </b>
     </h4>
+    <!-- Button accessible to users with admin permissions on Card 3 -->
     <ion-button *appCheckAccess="permission.Admin; feature: features.Card3" (click)="greenTheme.emit()">Du vert !</ion-button>
   </ion-card-content>
 </ion-card>

@@ -1,8 +1,8 @@
-import { Injectable } from '@angular/core';
-import { from, Observable } from 'rxjs';
-import { take } from 'rxjs/operators';
+import {Injectable} from '@angular/core';
+import {from, Observable} from 'rxjs';
+import {take} from 'rxjs/operators';
 
-import { ILgCard } from '../models/ILgCard';
+import {ILgCard} from '../models/ILgCard';
 
 @Injectable({
   providedIn: 'root',
@@ -27,6 +27,7 @@ export class LgCardApiService {
   ];
   constructor() {}
 
+  // Fetching some data to be displayed in our app
   public getLGCardData(): Observable<ILgCard[]> {
     return from([this.mockedLgCard]).pipe(take(1));
   }

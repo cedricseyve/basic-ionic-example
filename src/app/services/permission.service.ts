@@ -1,5 +1,5 @@
 import {Injectable} from '@angular/core';
-import {from, Observable} from 'rxjs';
+import {Observable} from 'rxjs';
 import {switchMap} from 'rxjs/operators';
 
 import {Features, IFeaturePermission, Permission} from '../models/IPermission';
@@ -9,77 +9,33 @@ import {UserService} from './user.service';
   providedIn: 'root',
 })
 export class PermissionService {
-  private mockedAdminRights: IFeaturePermission[] = [
-    {
-      feature: Features.Tab1,
-      permission: Permission.Admin,
-    },
-    {
-      feature: Features.Tab2,
-      permission: Permission.Admin,
-    },
-    {
-      feature: Features.Card1,
-      permission: Permission.Admin,
-    },
-    {
-      feature: Features.Card2,
-      permission: Permission.Admin,
-    },
-    {
-      feature: Features.Card3,
-      permission: Permission.Admin,
-    },
-  ];
-
-  private mockedUserRights: IFeaturePermission[] = [
-    {
-      feature: Features.Tab1,
-      permission: Permission.View,
-    },
-    {
-      feature: Features.Tab2,
-      permission: Permission.None,
-    },
-    {
-      feature: Features.Card1,
-      permission: Permission.View,
-    },
-    {
-      feature: Features.Card2,
-      permission: Permission.View,
-    },
-    {
-      feature: Features.Card3,
-      permission: Permission.View,
-    },
-  ];
   constructor(private userService: UserService) {}
 
   public getUserAuthorisations(): Observable<IFeaturePermission[]> {
     return this.userService.getUser().pipe(
       switchMap(user => {
-        if (user.codeProfil === 'RD') {
-          return from([this.mockedAdminRights]);
-        } else {
-          return from([this.mockedUserRights]);
-        }
+        return this.userService.getUserPermissions(user.codeProfil);
       })
     );
   }
 
   public async checkPermission(feature: Features, permission: Permission): Promise<boolean> {
+    // We fetch the list of user's permissions
     const userPermissions = await this.getUserAuthorisations().toPromise();
+    // We get the user's permission for the feature we're checking
     const featurePermission = userPermissions.find(f => f.feature === feature);
 
     if (!!featurePermission) {
       switch (permission) {
         case Permission.View:
+          // access granted as long as user's permission is not "None"
           return featurePermission.permission !== Permission.None;
         case Permission.Admin:
+          // access granted only if user's permission is "Admin"
           return featurePermission.permission === Permission.Admin;
       }
     }
+    // If feature is not in user's permission list => default to access not granted.
     return false;
   }
 }

@@ -1,6 +1,7 @@
 import {Injectable} from '@angular/core';
 import {from, Observable, Subject} from 'rxjs';
 
+import {Features, IFeaturePermission, Permission} from '../models/IPermission';
 import {IUser} from '../models/IUser';
 
 @Injectable({
@@ -19,6 +20,51 @@ export class UserService {
     nomPersonneDelegue: null,
     prenomPersonneDelegue: null,
   };
+  private mockedAdminRights: IFeaturePermission[] = [
+    {
+      feature: Features.Tab1,
+      permission: Permission.Admin,
+    },
+    {
+      feature: Features.Tab2,
+      permission: Permission.Admin,
+    },
+    {
+      feature: Features.Card1,
+      permission: Permission.Admin,
+    },
+    {
+      feature: Features.Card2,
+      permission: Permission.Admin,
+    },
+    {
+      feature: Features.Card3,
+      permission: Permission.Admin,
+    },
+  ];
+
+  private mockedUserRights: IFeaturePermission[] = [
+    {
+      feature: Features.Tab1,
+      permission: Permission.View,
+    },
+    {
+      feature: Features.Tab2,
+      permission: Permission.None,
+    },
+    {
+      feature: Features.Card1,
+      permission: Permission.View,
+    },
+    {
+      feature: Features.Card2,
+      permission: Permission.View,
+    },
+    {
+      feature: Features.Card3,
+      permission: Permission.View,
+    },
+  ];
 
   private userChanges = new Subject<IUser>();
 
@@ -26,6 +72,16 @@ export class UserService {
 
   getUser(): Observable<IUser> {
     return from([this.user]);
+  }
+
+  // This is used for mocking purposes.
+  // We should call our back-end to fetch our user's permissions for his profile.
+  getUserPermissions(userProfile: string): Observable<IFeaturePermission[]> {
+    if (userProfile === 'RD') {
+      return from([this.mockedAdminRights]);
+    } else {
+      return from([this.mockedUserRights]);
+    }
   }
 
   getUserChanges(): Observable<IUser> {
