@@ -1,8 +1,9 @@
-import { NgModule } from '@angular/core';
-import { RouterModule, Routes } from '@angular/router';
-import { AuthGuard } from 'src/app/guards/auth.guard';
+import {NgModule} from '@angular/core';
+import {RouterModule, Routes} from '@angular/router';
+import {AuthGuard} from 'src/app/guards/auth.guard';
+import {Features, Permission} from 'src/app/models/IPermission';
 
-import { TabsPage } from './tabs.page';
+import {TabsPage} from './tabs.page';
 
 const routes: Routes = [
   {
@@ -12,11 +13,14 @@ const routes: Routes = [
       {
         path: 'tab1',
         loadChildren: () => import('./tab1/tab1.module').then(m => m.Tab1PageModule),
+        canLoad: [AuthGuard],
+        data: {feature: Features.Tab1, permission: Permission.View},
       },
       {
         path: 'tab2',
         loadChildren: () => import('./tab2/tab2.module').then(m => m.Tab2PageModule),
         canLoad: [AuthGuard],
+        data: {feature: Features.Tab2, permission: Permission.Admin},
       },
       {
         path: 'tab3',

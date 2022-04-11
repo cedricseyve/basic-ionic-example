@@ -1,27 +1,26 @@
-import { Directive, OnDestroy, OnInit, TemplateRef, ViewContainerRef } from '@angular/core';
-import { Subject } from 'rxjs';
+import {Directive, Input, OnDestroy, OnInit, TemplateRef, ViewContainerRef} from '@angular/core';
+import {Subject} from 'rxjs';
 
-import { PermissionService } from '../services/permission.service';
+import {Features, Permission} from '../models/IPermission';
+import {PermissionService} from '../services/permission.service';
 
 @Directive({
   selector: '[appCheckAccess]',
 })
 export class CheckAccessDirective implements OnInit, OnDestroy {
-  // @Input() appCheckPermissions: Permission;
-  // @Input() appCheckPermissionsFeature: Features;
+  @Input() appCheckPermissions: Permission;
+  @Input() appCheckPermissionsFeature: Features;
 
   private onDestroy$ = new Subject<boolean>();
 
-  constructor(/* private store: Store, */ private permissionService: PermissionService, private templateRef: TemplateRef<any>, private viewContainer: ViewContainerRef) {}
+  constructor(private permissionService: PermissionService, private templateRef: TemplateRef<any>, private viewContainer: ViewContainerRef) {}
 
   ngOnInit() {
-    // this.store.pipe(select(userSelectors.selectUser), takeUntil(this.onDestroy$)).subscribe(user => {
-    if (/* !!user &&  */ this.permissionService.checkPermission(/* user, this.appCheckPermissionsFeature, this.appCheckPermissions */)) {
+    if (this.permissionService.checkPermission(this.appCheckPermissionsFeature, this.appCheckPermissions)) {
       this.viewContainer.createEmbeddedView(this.templateRef);
     } else {
       this.viewContainer.clear();
     }
-    // });
   }
 
   ngOnDestroy() {
