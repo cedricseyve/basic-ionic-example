@@ -13,13 +13,13 @@ const routes: Routes = [
       {
         path: 'tab1',
         loadChildren: () => import('./tab1/tab1.module').then(m => m.Tab1PageModule),
-        canLoad: [AuthGuard],
+        canActivate: [AuthGuard],
         data: {feature: Features.Tab1, permission: Permission.View},
       },
       {
         path: 'tab2',
         loadChildren: () => import('./tab2/tab2.module').then(m => m.Tab2PageModule),
-        canLoad: [AuthGuard],
+        canActivate: [AuthGuard],
         data: {feature: Features.Tab2, permission: Permission.Admin},
       },
       {

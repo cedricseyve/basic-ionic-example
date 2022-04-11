@@ -1,8 +1,6 @@
 <ion-header [translucent]="true">
   <ion-toolbar>
-    <ion-title>
-      Tab 3
-    </ion-title>
+    <ion-title> Tab 3 </ion-title>
   </ion-toolbar>
 </ion-header>
 
@@ -13,5 +11,7 @@
     </ion-toolbar>
   </ion-header>
 
-  <app-explore-container name="Tab 3 page"></app-explore-container>
+  <h3>Current profile : {{currentProfile}}</h3>
+  <ion-button (click)="switchUser()">Not Admin</ion-button>
+  <ion-button (click)="switchAdmin()">Admin</ion-button>
 </ion-content>

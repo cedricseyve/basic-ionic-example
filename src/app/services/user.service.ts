@@ -1,5 +1,5 @@
 import {Injectable} from '@angular/core';
-import {from, Observable} from 'rxjs';
+import {from, Observable, Subject} from 'rxjs';
 
 import {IUser} from '../models/IUser';
 
@@ -20,9 +20,26 @@ export class UserService {
     prenomPersonneDelegue: null,
   };
 
+  private userChanges = new Subject<IUser>();
+
   constructor() {}
 
   getUser(): Observable<IUser> {
     return from([this.user]);
+  }
+
+  getUserChanges(): Observable<IUser> {
+    return this.userChanges;
+  }
+
+  // only used to mock data
+  setAdmin() {
+    this.user.codeProfil = 'RD';
+    this.userChanges.next(this.user);
+  }
+
+  setUser() {
+    this.user.codeProfil = 'notRD';
+    this.userChanges.next(this.user);
   }
 }

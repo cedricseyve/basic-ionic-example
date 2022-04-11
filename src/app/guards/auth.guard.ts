@@ -1,15 +1,14 @@
 import {Injectable} from '@angular/core';
-import {CanLoad, Route, UrlSegment, UrlTree} from '@angular/router';
-import {Observable} from 'rxjs';
+import {ActivatedRouteSnapshot, CanActivate, RouterStateSnapshot, UrlTree} from '@angular/router';
 
 import {PermissionService} from '../services/permission.service';
 
 @Injectable({
   providedIn: 'root',
 })
-export class AuthGuard implements CanLoad {
+export class AuthGuard implements CanActivate {
   constructor(private permissionService: PermissionService) {}
-  canLoad(route: Route, segments: UrlSegment[]): boolean | UrlTree | Observable<boolean | UrlTree> | Promise<boolean | UrlTree> {
-    return this.permissionService.checkPermission(route.data.feature, route.data.permission);
+  canActivate(route: ActivatedRouteSnapshot, state: RouterStateSnapshot): Promise<boolean | UrlTree> {
+    return this.permissionService.checkPermission(route.data['feature'], route.data['permission']);
   }
 }

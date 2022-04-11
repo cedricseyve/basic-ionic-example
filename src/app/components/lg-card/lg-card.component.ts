@@ -1,4 +1,5 @@
-import { Component, EventEmitter, Input, OnInit, Output } from '@angular/core';
+import {Component, EventEmitter, Input, OnInit, Output} from '@angular/core';
+import {Features, Permission} from 'src/app/models/IPermission';
 
 @Component({
   selector: 'app-lg-card',
@@ -12,6 +13,9 @@ export class LgCardComponent implements OnInit {
   @Input() selectedTheme: string;
 
   @Output() greenTheme = new EventEmitter();
+
+  permission = Permission;
+  features = Features;
 
   constructor() {}
 

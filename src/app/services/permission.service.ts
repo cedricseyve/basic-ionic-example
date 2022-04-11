@@ -9,8 +9,6 @@ import {UserService} from './user.service';
   providedIn: 'root',
 })
 export class PermissionService {
-  private userPermissions: IFeaturePermission[];
-
   private mockedAdminRights: IFeaturePermission[] = [
     {
       feature: Features.Tab1,

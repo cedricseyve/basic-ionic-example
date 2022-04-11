@@ -1,4 +1,4 @@
-<ion-card>
+<ion-card *appCheckAccess="permission.View; feature: features.Card3">
   <ion-card-header>
     <ion-card-title>{{ title }}</ion-card-title>
     <ion-card-subtitle>{{ subtitle }}</ion-card-subtitle>
@@ -12,6 +12,6 @@
       Current theme :
       <b> {{ selectedTheme }} </b>
     </h4>
-    <ion-button (click)="greenTheme.emit()">Du vert !</ion-button>
+    <ion-button *appCheckAccess="permission.Admin; feature: features.Card3" (click)="greenTheme.emit()">Du vert !</ion-button>
   </ion-card-content>
 </ion-card>

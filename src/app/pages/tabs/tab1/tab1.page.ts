@@ -1,8 +1,9 @@
-import { Component, OnInit } from '@angular/core';
-import { tap } from 'rxjs/operators';
-import { ILgCard } from 'src/app/models/ILgCard';
-import { LgCardApiService } from 'src/app/services/lg-card-api.service';
-import { ThemeService } from 'src/app/services/theme.service';
+import {Component, OnInit} from '@angular/core';
+import {tap} from 'rxjs/operators';
+import {ILgCard} from 'src/app/models/ILgCard';
+import {Features, Permission} from 'src/app/models/IPermission';
+import {LgCardApiService} from 'src/app/services/lg-card-api.service';
+import {ThemeService} from 'src/app/services/theme.service';
 
 @Component({
   selector: 'app-tab1',
@@ -10,6 +11,9 @@ import { ThemeService } from 'src/app/services/theme.service';
   styleUrls: ['tab1.page.scss'],
 })
 export class Tab1Page implements OnInit {
+  public permission = Permission;
+  public features = Features;
+
   public lgCardDatas: ILgCard[];
 
   public themeColor = [

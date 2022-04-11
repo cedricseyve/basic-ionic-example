@@ -18,16 +18,20 @@
     </ion-toolbar>
   </ion-header>
 
-  <ion-card *ngIf="lgCardDatas[0]">
-    <ion-card-header>
-      <ion-card-subtitle>{{lgCardDatas[0].subtitle}}</ion-card-subtitle>
-      <ion-card-title>{{lgCardDatas[0].title}}</ion-card-title>
-    </ion-card-header>
+  <ng-container *appCheckAccess="permission.View; feature: features.Card1">
+    <ion-card *ngIf="lgCardDatas[0]">
+      <ion-card-header>
+        <ion-card-subtitle>{{lgCardDatas[0].subtitle}}</ion-card-subtitle>
+        <ion-card-title>{{lgCardDatas[0].title}}</ion-card-title>
+      </ion-card-header>
 
-    <ion-card-content> {{lgCardDatas[0].content}} </ion-card-content>
-  </ion-card>
+      <ion-card-content> {{lgCardDatas[0].content}} </ion-card-content>
+    </ion-card>
+  </ng-container>
 
-  <app-tab1-card *ngIf="lgCardDatas[2]" [title]="lgCardDatas[2].title" [subtitle]="lgCardDatas[2].subtitle" [content]="lgCardDatas[2].content"></app-tab1-card>
+  <ng-container *appCheckAccess="permission.View; feature: features.Card2">
+    <app-tab1-card *ngIf="lgCardDatas[2]" [title]="lgCardDatas[2].title" [subtitle]="lgCardDatas[2].subtitle" [content]="lgCardDatas[2].content"></app-tab1-card>
+  </ng-container>
 
   <app-lg-card
     *ngIf="lgCardDatas[1]"

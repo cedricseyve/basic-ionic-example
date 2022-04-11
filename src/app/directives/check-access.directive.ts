@@ -1,30 +1,45 @@
 import {Directive, Input, OnDestroy, OnInit, TemplateRef, ViewContainerRef} from '@angular/core';
-import {Subject} from 'rxjs';
+import {Subject, Subscription} from 'rxjs';
+import {tap} from 'rxjs/operators';
 
 import {Features, Permission} from '../models/IPermission';
 import {PermissionService} from '../services/permission.service';
+import {UserService} from '../services/user.service';
 
 @Directive({
   selector: '[appCheckAccess]',
 })
 export class CheckAccessDirective implements OnInit, OnDestroy {
-  @Input() appCheckPermissions: Permission;
-  @Input() appCheckPermissionsFeature: Features;
+  @Input() appCheckAccess: Permission;
+  @Input() appCheckAccessFeature: Features;
 
   private onDestroy$ = new Subject<boolean>();
+  private userSubscription: Subscription;
 
-  constructor(private permissionService: PermissionService, private templateRef: TemplateRef<any>, private viewContainer: ViewContainerRef) {}
+  constructor(private permissionService: PermissionService, private templateRef: TemplateRef<any>, private viewContainer: ViewContainerRef, private userService: UserService) {}
 
-  ngOnInit() {
-    if (this.permissionService.checkPermission(this.appCheckPermissionsFeature, this.appCheckPermissions)) {
+  async ngOnInit() {
+    this.displayOrHideComponent();
+    // This subscription is only used for example purposes and auto refreshing when mocked user is updated.
+    // Should not be used if app is refreshed when user is changed.
+    this.userSubscription = this.userService
+      .getUserChanges()
+      .pipe(tap(() => this.displayOrHideComponent()))
+      .subscribe();
+  }
+
+  private async displayOrHideComponent() {
+    this.viewContainer.clear();
+    const canAccess = await this.permissionService.checkPermission(this.appCheckAccessFeature, this.appCheckAccess);
+
+    if (canAccess) {
       this.viewContainer.createEmbeddedView(this.templateRef);
-    } else {
-      this.viewContainer.clear();
     }
   }
 
   ngOnDestroy() {
     this.onDestroy$.next(true);
     this.onDestroy$.unsubscribe();
+    this.userSubscription.unsubscribe();
   }
 }
