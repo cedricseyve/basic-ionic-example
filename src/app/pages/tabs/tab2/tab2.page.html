@@ -12,10 +12,16 @@
   </ion-header>
 
   <h4>This page is restricted to some users</h4>
+  <!-- {{view.dates[row*7+col].events}} -->
+  <ng-template #template let-view="view" let-row="row" let-col="col">
+    <em class="calendar-event" [ngClass]="setEventClasses(view.dates[row*7+col].events[0]?.eventType, view.dates[row*7+col].label)"> {{view.dates[row*7+col].label}} </em>
+  </ng-template>
   <calendar
+    [monthviewDisplayEventTemplate]="template"
     [eventSource]="eventSource"
     [calendarMode]="calendar.mode"
     [currentDate]="calendar.currentDate"
+    [showEventDetail]="calendar.showEventDetail"
     (onCurrentDateChanged)="onCurrentDateChanged($event)"
     (onEventSelected)="onEventSelected($event)"
     (onTitleChanged)="onViewTitleChanged($event)"

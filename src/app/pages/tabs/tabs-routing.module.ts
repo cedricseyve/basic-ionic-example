@@ -1,9 +1,9 @@
-import {NgModule} from '@angular/core';
-import {RouterModule, Routes} from '@angular/router';
-import {AuthGuard} from 'src/app/guards/auth.guard';
-import {Features, Permission} from 'src/app/models/IPermission';
+import { NgModule } from '@angular/core';
+import { RouterModule, Routes } from '@angular/router';
+import { AuthGuard } from 'src/app/guards/auth.guard';
+import { Features, Permission } from 'src/app/models/IPermission';
 
-import {TabsPage} from './tabs.page';
+import { TabsPage } from './tabs.page';
 
 // An example of a page with children pages.
 // We could also avoid using this page and directly declare our tabs in app-routing.
